@@ -2,6 +2,43 @@
 <?php session_start(); 
 include("login.php");
 
+include("go4shop/config.php");
+require("go4shop/config.php");
+require("go4shop/functions.php");
+require("go4shop/header.php");
+$prodcatsql = "SELECT * FROM products WHERE cat_id = " . $_GET['id'] . ";";
+$prodcatres = mysql_query($prodcatsql);
+$numrows = mysql_num_rows($prodcatres);
+if($numrows == 0)
+{
+echo "<h1>No products</h1>";
+echo "There are no products in this category.";
+}
+else
+{
+echo "<table cellpadding='10'>";
+while($prodrow = mysql_fetch_assoc($prodcatres))
+{
+echo "<tr>";
+if(empty($prodrow['image'])) {
+echo "<td><img
+src='.go4shop/productimages/dummy.jpg' alt='". $prodrow['name'] . "'></td>";
+}
+else {
+echo "<td><img src='.go4shop/productimages/" . $prodrow['image']. "' alt='". $prodrow['name'] . "'></td>";
+}
+echo "<td>";
+echo "<h2>" . $prodrow['name'] . "</h2>";
+echo "<p>" . $prodrow['description'];
+echo "<p><strong>OUR PRICE: &pound;". sprintf('%.2f', $prodrow['price']) . "</strong>";
+echo "<p>[<a href='addtobasket.php?id=". $prodrow['id'] . "'>buy</a>]";
+echo "</td>";
+echo "</tr>";
+}
+echo "</table>";
+}
+
+
 ?>
 <html lang="en">
 <head>
@@ -139,7 +176,7 @@ include("login.php");
 ?>
 
 
-<a href="payment.php" ><span class="icon glyphicon glyphicon-shopping-cart"> </span></a>
+<a href="shopping/cart.php" ><span class="icon glyphicon glyphicon-shopping-cart"> </span></a>
 
 </div>
 <!-- top right icons finished -->
@@ -148,10 +185,7 @@ include("login.php");
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 " >
             
-			
-			
-			
-			
+
 		<img src="img/pic1.jpg" class="img-responsive">
         </div>
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xl-4 " >
@@ -172,6 +206,49 @@ include("login.php");
 
 	<div id="section1" class="container-fluid scrollpad">
 	<div class="test">this is some text1</div>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<?php
+echo "<table cellpadding='10'>";
+while($prodrow = mysql_fetch_assoc($prodcatres))
+{
+echo "<tr>";
+if(empty($prodrow['image'])) {
+echo "<td><img
+src='.go4shop/productimages/dummy.jpg' alt='". $prodrow['name'] . "'></td>";
+}
+else {
+echo "<td><img src='.go4shop/productimages/" . $prodrow['image']. "' alt='". $prodrow['name'] . "'></td>";
+}
+echo "<td>";
+echo "<h2>" . $prodrow['name'] . "</h2>";
+echo "<p>" . $prodrow['description'];
+echo "<p><strong>OUR PRICE: &pound;". sprintf('%.2f', $prodrow['price']) . "</strong>";
+echo "<p>[<a href='addtobasket.php?id=". $prodrow['id'] . "'>buy</a>]";
+echo "</td>";
+echo "</tr>";
+}
+echo "</table>";
+
+?>
+
+
+
+
+
+
+
+	
+	
+	
 	</div>
 		<div id="section2" class="container-fluid scrollpad">
 	<div class="test">this is some text2</div>	
